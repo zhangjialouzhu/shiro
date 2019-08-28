@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ckm_rest_api-2019-03-14">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/ckm_rest_api-2019-03-14.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuc.dao.SourKindMapper">
+
+	<resultMap id="BaseResultMap" type="com.yuc.model.SourKind">
+			<id property="id" column="id" jdbcType="VARCHAR"/>
+			<result property="sourceNum" column="sourceNum" jdbcType="VARCHAR"/>
+			<result property="sourceType" column="sourceType" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Base_Column_List">
+		id,sourceNum,sourceType
+	</sql>
+	
+	<select id="getById" parameterType="int" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			t_sour_kind
+		where
+        id = #{id}
+	</select>
+	
+	<select id="countBy" resultType="int">
+		select count(*)
+		from t_sour_kind
+		where 1=1
+		  <if test="_bean != null and _bean.id != null">
+			and id = #{ _bean.id, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.sourceNum != null">
+			and sourceNum = #{ _bean.sourceNum, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.sourceType != null">
+			and sourceType = #{ _bean.sourceType, jdbcType=VARCHAR }
+		  </if>
+	</select>
+
+	
+	<update id="update" parameterType="com.yuc.model.SourKind">
+		update t_sour_kind
+		<set>
+			<if test="sourceNum != null">
+			  sourceNum = #{sourceNum, jdbcType=VARCHAR },
+			</if>
+			<if test="sourceType != null">
+			  sourceType = #{sourceType, jdbcType=VARCHAR },
+			</if>
+		</set>
+		where
+                id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+		delete from t_sour_kind 
+		where
+        id = #{id}
+	</delete>
+	
+	<insert id="insert" parameterType="com.yuc.model.SourKind">
+		insert into t_sour_kind
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="sourceNum != null">
+				sourceNum,
+			</if>
+			<if test="sourceType != null">
+				sourceType,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id, jdbcType=VARCHAR},
+			</if>
+			<if test="sourceNum != null">
+				#{sourceNum, jdbcType=VARCHAR},
+			</if>
+			<if test="sourceType != null">
+				#{sourceType, jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+</mapper>

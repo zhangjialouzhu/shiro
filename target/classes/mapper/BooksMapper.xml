@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuc.dao.BooksMapper">
+
+	<resultMap id="BaseResultMap" type="com.yuc.model.Books">
+			<id property="bookId" column="book_id" jdbcType="VARCHAR"/>
+			<result property="bookName" column="book_name" jdbcType="VARCHAR"/>
+			<result property="bookArea" column="book_area" jdbcType="VARCHAR"/>
+			<result property="bookSize" column="book_size" jdbcType="VARCHAR"/>
+			<result property="bookOprtime" column="book_oprtime" jdbcType="VARCHAR"/>
+			<result property="isdel" column="isdel" jdbcType="VARCHAR"/>
+			<result property="typeNum" column="type_num" jdbcType="VARCHAR"/>
+			<result property="bookAttr" column="book_attr" jdbcType="VARCHAR"/>
+			<result property="bookOprman" column="book_oprman" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Base_Column_List">
+		book_id,book_name,book_area,book_size,book_oprtime,isdel,type_num,book_attr,book_oprman
+	</sql>
+	
+	<select id="getById" parameterType="int" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			t_books
+		where
+        book_id = #{id}
+	</select>
+	
+
+	
+	<update id="update" parameterType="com.yuc.model.Books">
+		update t_books
+		<set>
+			<if test="bookName != null">
+			  book_name = #{bookName, jdbcType=VARCHAR },
+			</if>
+			<if test="bookArea != null">
+			  book_area = #{bookArea, jdbcType=VARCHAR },
+			</if>
+			<if test="bookSize != null">
+			  book_size = #{bookSize, jdbcType=VARCHAR },
+			</if>
+			<if test="bookOprtime != null">
+			  book_oprtime = #{bookOprtime, jdbcType=VARCHAR },
+			</if>
+			<if test="isdel != null">
+			  isdel = #{isdel, jdbcType=VARCHAR },
+			</if>
+			<if test="typeNum != null">
+			  type_num = #{typeNum, jdbcType=VARCHAR },
+			</if>
+			<if test="bookAttr != null">
+			  book_attr = #{bookAttr, jdbcType=VARCHAR },
+			</if>
+			<if test="bookOprman != null">
+			  book_oprman = #{bookOprman, jdbcType=VARCHAR },
+			</if>
+		</set>
+		where
+                book_id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+		delete from t_books 
+		where
+        book_id = #{id}
+	</delete>
+	
+	<insert id="insert" parameterType="com.yuc.model.Books">
+		insert into t_books
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="bookId != null">
+				book_id,
+			</if>
+			<if test="bookName != null">
+				book_name,
+			</if>
+			<if test="bookArea != null">
+				book_area,
+			</if>
+			<if test="bookSize != null">
+				book_size,
+			</if>
+			<if test="bookOprtime != null">
+				book_oprtime,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+			<if test="typeNum != null">
+				type_num,
+			</if>
+			<if test="bookAttr != null">
+				book_attr,
+			</if>
+			<if test="bookOprman != null">
+				book_oprman,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="bookId != null">
+				#{bookId, jdbcType=VARCHAR},
+			</if>
+			<if test="bookName != null">
+				#{bookName, jdbcType=VARCHAR},
+			</if>
+			<if test="bookArea != null">
+				#{bookArea, jdbcType=VARCHAR},
+			</if>
+			<if test="bookSize != null">
+				#{bookSize, jdbcType=VARCHAR},
+			</if>
+			<if test="bookOprtime != null">
+				#{bookOprtime, jdbcType=VARCHAR},
+			</if>
+			<if test="isdel != null">
+				#{isdel, jdbcType=VARCHAR},
+			</if>
+			<if test="typeNum != null">
+				#{typeNum, jdbcType=VARCHAR},
+			</if>
+			<if test="bookAttr != null">
+				#{bookAttr, jdbcType=VARCHAR},
+			</if>
+			<if test="bookOprman != null">
+				#{bookOprman, jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+</mapper>

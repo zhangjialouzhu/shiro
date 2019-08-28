@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuc.dao.ResourceMapper">
+
+    <resultMap id="BaseResultMap" type="com.yuc.model.Resource">
+        <id property="rid" column="r_id" jdbcType="INTEGER"/>
+        <result property="rname" column="r_name" jdbcType="VARCHAR"/>
+        <result property="rattr" column="r_attr" jdbcType="VARCHAR"/>
+        <result property="rarea" column="r_area" jdbcType="VARCHAR"/>
+        <result property="roprtime" column="r_oprtime" jdbcType="VARCHAR"/>
+        <result property="rsize" column="r_size" jdbcType="VARCHAR"/>
+        <result property="isdel" column="isdel" jdbcType="VARCHAR"/>
+        <result property="typeNum" column="type_num" jdbcType="VARCHAR"/>
+        <result property="roprman" column="r_oprman" jdbcType="VARCHAR"/>
+        <result property="rcid" column="r_cid" jdbcType="VARCHAR"/>
+        <result property="sourceType" column="sourceType" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="Base_Column_List">
+		r_id,r_name,r_attr,r_area,r_oprtime,r_size,isdel,type_num,r_oprman,r_cid
+	</sql>
+
+    <select id="getById" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_resource
+        where
+        r_id = #{id}
+    </select>
+
+    <select id="getResource" parameterType="String" resultMap="BaseResultMap">
+		select r.r_name,r.r_area,r.r_attr,r.r_id,r.r_oprtime,k.sourceType
+		from t_resource r
+        LEFT JOIN t_sour_kind k on r.type_num = k.sourceNum
+        where r.isdel!='1'
+        <if test="cname!=null">
+         and   r.r_cid = (select id from t_courses where cnname = #{cname,jdbcType=VARCHAR} )
+        </if>
+	</select>
+
+
+    <update id="update" parameterType="com.yuc.model.Resource">
+        update t_resource
+        <set>
+            <if test="rname != null">
+                r_name = #{rname, jdbcType=VARCHAR },
+            </if>
+            <if test="rattr != null">
+                r_attr = #{rattr, jdbcType=VARCHAR },
+            </if>
+            <if test="rarea != null">
+                r_area = #{rarea, jdbcType=VARCHAR },
+            </if>
+            <if test="roprtime != null">
+                r_oprtime = #{roprtime, jdbcType=VARCHAR },
+            </if>
+            <if test="rsize != null">
+                r_size = #{rsize, jdbcType=VARCHAR },
+            </if>
+            <if test="isdel != null">
+                isdel = #{isdel, jdbcType=VARCHAR },
+            </if>
+            <if test="typeNum != null">
+                type_num = #{typeNum, jdbcType=VARCHAR },
+            </if>
+            <if test="roprman != null">
+                r_oprman = #{roprman, jdbcType=VARCHAR },
+            </if>
+            <if test="rcid != null">
+                r_cid = #{rcid, jdbcType=VARCHAR },
+            </if>
+        </set>
+        where
+        r_id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+		delete from t_resource 
+		where
+        r_id = #{id}
+	</delete>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="rid" parameterType="com.yuc.model.Resource">
+        insert into t_resource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                r_id,
+            <if test="rname != null">
+                r_name,
+            </if>
+            <if test="rattr != null">
+                r_attr,
+            </if>
+            <if test="rarea != null">
+                r_area,
+            </if>
+            <if test="roprtime != null">
+                r_oprtime,
+            </if>
+            <if test="rsize != null">
+                r_size,
+            </if>
+            <if test="isdel != null">
+                isdel,
+            </if>
+            <if test="typeNum != null">
+                type_num,
+            </if>
+            <if test="roprman != null">
+                r_oprman,
+            </if>
+            <if test="rcid != null">
+                r_cid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            '10000111' ,
+            <if test="rname != null">
+                #{rname, jdbcType=VARCHAR},
+            </if>
+            <if test="rattr != null">
+                #{rattr, jdbcType=VARCHAR},
+            </if>
+            <if test="rarea != null">
+                #{rarea, jdbcType=VARCHAR},
+            </if>
+            <if test="roprtime != null">
+                #{roprtime, jdbcType=VARCHAR},
+            </if>
+            <if test="rsize != null">
+                #{rsize, jdbcType=VARCHAR},
+            </if>
+            <if test="isdel != null">
+                #{isdel, jdbcType=VARCHAR},
+            </if>
+            <if test="typeNum != null">
+                #{typeNum, jdbcType=VARCHAR},
+            </if>
+            <if test="roprman != null">
+                #{roprman, jdbcType=VARCHAR},
+            </if>
+            <if test="rcid != null">
+                #{rcid, jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="sqlTest" parameterType="String" resultMap="BaseResultMap">
+        select
+          ${rid}
+        from
+        t_resource
+
+    </select>
+
+
+
+</mapper>

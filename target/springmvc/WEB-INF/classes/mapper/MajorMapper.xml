@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuc.dao.MajorMapper">
+
+	<resultMap id="BaseResultMap" type="com.yuc.model.Major">
+			<id property="id" column="id" jdbcType="VARCHAR"/>
+			<result property="engname" column="engname" jdbcType="VARCHAR"/>
+			<result property="cnname" column="cnname" jdbcType="VARCHAR"/>
+		<collection property="courses" ofType="com.yuc.model.Courses">
+			<id property="id" column="cid" jdbcType="VARCHAR"/>
+			<result property="cnname" column="ccnname" jdbcType="VARCHAR"/>
+			<result property="engname" column="cengname" jdbcType="VARCHAR"/>
+			<result property="majorId" column="majorId" jdbcType="VARCHAR"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Base_Column_List">
+		id,engname,cnname
+	</sql>
+	
+	<select id="getResource" resultMap="BaseResultMap">
+		SELECT m.id,m.cnname,co.id cid,co.cnname ccnname,co.majorId
+		from t_major m  LEFT JOIN t_courses co
+		ON m.id = co.majorId
+	</select>
+	
+	<select id="getById" parameterType="String" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			t_major
+		where
+        id = #{id}
+	</select>
+	
+	<select id="countBy" resultType="int">
+		select count(*)
+		from t_major
+		where 1=1
+		  <if test="_bean != null and _bean.id != null">
+			and id = #{ _bean.id, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.engname != null">
+			and engname = #{ _bean.engname, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.cnname != null">
+			and cnname = #{ _bean.cnname, jdbcType=VARCHAR }
+		  </if>
+	</select>
+
+	
+
+	<delete id="deleteById" parameterType="int">
+		delete from t_major 
+		where
+        id = #{id}
+	</delete>
+	
+	<insert id="insert" parameterType="com.yuc.model.Major">
+		insert into t_major
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="engname != null">
+				engname,
+			</if>
+			<if test="cnname != null">
+				cnname,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id, jdbcType=VARCHAR},
+			</if>
+			<if test="engname != null">
+				#{engname, jdbcType=VARCHAR},
+			</if>
+			<if test="cnname != null">
+				#{cnname, jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+</mapper>

@@ -1,0 +1,90 @@
+﻿<!doctype html>
+<html lang="zh-cmn-Hans"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/login/styles.css">
+    <style type="text/css">
+        #code
+        {
+            font-family:Arial;
+            font-style:italic;
+            font-weight:bold;
+            border:0;
+            letter-spacing:2px;
+            color:blue;
+        }
+    </style>
+</head>
+<body>
+<div class="htmleaf-container">
+    <div class="wrapper">
+        <div class="container">
+            <h1>欢迎</h1>
+            <form class="form" method="post" >
+                <input id="username" name="username" type="text" placeholder="用户名"/>
+                <input id="password" name="password" type="password" placeholder="密码"/>
+                <input type = "button" id="code" onclick="createCode()"/>
+                <input type = "text" id="recode" placeholder="验证码"/>
+                <button type="submit" id="login-button">登录</button>
+            </form>
+        </div>
+
+        <ul class="bg-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
+
+<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';color:#000000">
+    <h1>在线交流系统</h1>
+</div>
+<div th:replace="fragments/footer :: js"></div>
+<script type="text/javascript" th:src="@{/static/js/checkCode.js}"></script>
+<script>
+    $(function () {
+        createCode();
+    });
+    $('#login-button').click(function (event) {
+
+        var password =  $("#password").val();
+        var username = $("#username").val();
+        if(username==null||username==''){
+            $("#username").attr("placeholder","用户名不能为空");
+           return;
+        }
+        if(password==null||password==''){
+            $("#password").attr("placeholder","密码名不能为空");
+            return;
+        }
+       /* event.preventDefault();
+        $('form').fadeOut(500);*/
+        $('.wrapper').addClass('form-success');
+      //  $('#login-button').click();
+       $.ajax({
+            type:'post',
+            url:webUrl+'/login/index',
+            data:{
+                'password':password,
+                'username':username
+            },
+            success:function(result){
+                console.log(JSON.stringify(result))
+
+            }
+        });
+    });
+</script>
+</body>
+</html>

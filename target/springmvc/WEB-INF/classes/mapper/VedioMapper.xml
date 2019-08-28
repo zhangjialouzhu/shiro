@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuc.dao.VedioMapper">
+
+	<resultMap id="BaseResultMap" type="com.yuc.model.Vedio">
+			<id property="vedioId" column="vedio_id" jdbcType="INTEGER"/>
+			<result property="vedioName" column="vedio_name" jdbcType="VARCHAR"/>
+			<result property="vedioAttr" column="vedio_attr" jdbcType="VARCHAR"/>
+			<result property="vedioArea" column="vedio_area" jdbcType="VARCHAR"/>
+			<result property="vedioOprtime" column="vedio_oprtime" jdbcType="VARCHAR"/>
+			<result property="vedioSize" column="vedio_size" jdbcType="VARCHAR"/>
+			<result property="isdel" column="isdel" jdbcType="VARCHAR"/>
+			<result property="typeNum" column="type_num" jdbcType="VARCHAR"/>
+			<result property="vedioOprman" column="vedio_oprman" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Base_Column_List">
+		vedio_id,vedio_name,vedio_attr,vedio_area,vedio_oprtime,vedio_size,isdel,type_num,vedio_oprman
+	</sql>
+	
+	<select id="getById" parameterType="int" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			t_vedio
+		where
+        vedio_id = #{id}
+	</select>
+	
+	<select id="countBy" resultType="int">
+		select count(*)
+		from t_vedio
+		where 1=1
+		  <if test="_bean != null and _bean.vedioId != null">
+			and vedio_id = #{ _bean.vedioId, jdbcType=INTEGER }
+		  </if>
+		  <if test="_bean != null and _bean.vedioName != null">
+			and vedio_name = #{ _bean.vedioName, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.vedioAttr != null">
+			and vedio_attr = #{ _bean.vedioAttr, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.vedioArea != null">
+			and vedio_area = #{ _bean.vedioArea, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.vedioOprtime != null">
+			and vedio_oprtime = #{ _bean.vedioOprtime, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.vedioSize != null">
+			and vedio_size = #{ _bean.vedioSize, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.isdel != null">
+			and isdel = #{ _bean.isdel, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.typeNum != null">
+			and type_num = #{ _bean.typeNum, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.vedioOprman != null">
+			and vedio_oprman = #{ _bean.vedioOprman, jdbcType=VARCHAR }
+		  </if>
+	</select>
+
+	
+	<update id="update" parameterType="com.yuc.model.Vedio">
+		update t_vedio
+		<set>
+			<if test="vedioName != null">
+			  vedio_name = #{vedioName, jdbcType=VARCHAR },
+			</if>
+			<if test="vedioAttr != null">
+			  vedio_attr = #{vedioAttr, jdbcType=VARCHAR },
+			</if>
+			<if test="vedioArea != null">
+			  vedio_area = #{vedioArea, jdbcType=VARCHAR },
+			</if>
+			<if test="vedioOprtime != null">
+			  vedio_oprtime = #{vedioOprtime, jdbcType=VARCHAR },
+			</if>
+			<if test="vedioSize != null">
+			  vedio_size = #{vedioSize, jdbcType=VARCHAR },
+			</if>
+			<if test="isdel != null">
+			  isdel = #{isdel, jdbcType=VARCHAR },
+			</if>
+			<if test="typeNum != null">
+			  type_num = #{typeNum, jdbcType=VARCHAR },
+			</if>
+			<if test="vedioOprman != null">
+			  vedio_oprman = #{vedioOprman, jdbcType=VARCHAR },
+			</if>
+		</set>
+		where
+                vedio_id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+		delete from t_vedio 
+		where
+        vedio_id = #{id}
+	</delete>
+	
+	<insert id="insert" parameterType="com.yuc.model.Vedio">
+		insert into t_vedio
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="vedioId != null">
+				vedio_id,
+			</if>
+			<if test="vedioName != null">
+				vedio_name,
+			</if>
+			<if test="vedioAttr != null">
+				vedio_attr,
+			</if>
+			<if test="vedioArea != null">
+				vedio_area,
+			</if>
+			<if test="vedioOprtime != null">
+				vedio_oprtime,
+			</if>
+			<if test="vedioSize != null">
+				vedio_size,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+			<if test="typeNum != null">
+				type_num,
+			</if>
+			<if test="vedioOprman != null">
+				vedio_oprman,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="vedioId != null">
+				#{vedioId, jdbcType=INTEGER},
+			</if>
+			<if test="vedioName != null">
+				#{vedioName, jdbcType=VARCHAR},
+			</if>
+			<if test="vedioAttr != null">
+				#{vedioAttr, jdbcType=VARCHAR},
+			</if>
+			<if test="vedioArea != null">
+				#{vedioArea, jdbcType=VARCHAR},
+			</if>
+			<if test="vedioOprtime != null">
+				#{vedioOprtime, jdbcType=VARCHAR},
+			</if>
+			<if test="vedioSize != null">
+				#{vedioSize, jdbcType=VARCHAR},
+			</if>
+			<if test="isdel != null">
+				#{isdel, jdbcType=VARCHAR},
+			</if>
+			<if test="typeNum != null">
+				#{typeNum, jdbcType=VARCHAR},
+			</if>
+			<if test="vedioOprman != null">
+				#{vedioOprman, jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+</mapper>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yuc.dao.DocMapper">
+
+	<resultMap id="BaseResultMap" type="com.yuc.model.Doc">
+			<id property="docId" column="doc_id" jdbcType="VARCHAR"/>
+			<result property="docName" column="doc_name" jdbcType="VARCHAR"/>
+			<result property="docArea" column="doc_area" jdbcType="VARCHAR"/>
+			<result property="docTime" column="doc_time" jdbcType="VARCHAR"/>
+			<result property="docOprman" column="doc_oprman" jdbcType="VARCHAR"/>
+			<result property="isdel" column="isdel" jdbcType="VARCHAR"/>
+			<result property="docAttr" column="doc_attr" jdbcType="VARCHAR"/>
+			<result property="typeNum" column="type_num" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Base_Column_List">
+		doc_id,doc_name,doc_area,doc_time,doc_oprman,isdel,doc_attr,type_num
+	</sql>
+	
+	<select id="getById" parameterType="int" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from
+			t_doc
+		where
+        doc_id = #{id}
+	</select>
+	
+	<select id="countBy" resultType="int">
+		select count(*)
+		from t_doc
+		where 1=1
+		  <if test="_bean != null and _bean.docId != null">
+			and doc_id = #{ _bean.docId, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.docName != null">
+			and doc_name = #{ _bean.docName, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.docArea != null">
+			and doc_area = #{ _bean.docArea, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.docTime != null">
+			and doc_time = #{ _bean.docTime, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.docOprman != null">
+			and doc_oprman = #{ _bean.docOprman, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.isdel != null">
+			and isdel = #{ _bean.isdel, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.docAttr != null">
+			and doc_attr = #{ _bean.docAttr, jdbcType=VARCHAR }
+		  </if>
+		  <if test="_bean != null and _bean.typeNum != null">
+			and type_num = #{ _bean.typeNum, jdbcType=VARCHAR }
+		  </if>
+	</select>
+
+	
+	<update id="update" parameterType="com.yuc.model.Doc">
+		update t_doc
+		<set>
+			<if test="docName != null">
+			  doc_name = #{docName, jdbcType=VARCHAR },
+			</if>
+			<if test="docArea != null">
+			  doc_area = #{docArea, jdbcType=VARCHAR },
+			</if>
+			<if test="docTime != null">
+			  doc_time = #{docTime, jdbcType=VARCHAR },
+			</if>
+			<if test="docOprman != null">
+			  doc_oprman = #{docOprman, jdbcType=VARCHAR },
+			</if>
+			<if test="isdel != null">
+			  isdel = #{isdel, jdbcType=VARCHAR },
+			</if>
+			<if test="docAttr != null">
+			  doc_attr = #{docAttr, jdbcType=VARCHAR },
+			</if>
+			<if test="typeNum != null">
+			  type_num = #{typeNum, jdbcType=VARCHAR },
+			</if>
+		</set>
+		where
+                doc_id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+		delete from t_doc 
+		where
+        doc_id = #{id}
+	</delete>
+	
+	<insert id="insert" parameterType="com.yuc.model.Doc">
+		insert into t_doc
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="docId != null">
+				doc_id,
+			</if>
+			<if test="docName != null">
+				doc_name,
+			</if>
+			<if test="docArea != null">
+				doc_area,
+			</if>
+			<if test="docTime != null">
+				doc_time,
+			</if>
+			<if test="docOprman != null">
+				doc_oprman,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+			<if test="docAttr != null">
+				doc_attr,
+			</if>
+			<if test="typeNum != null">
+				type_num,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="docId != null">
+				#{docId, jdbcType=VARCHAR},
+			</if>
+			<if test="docName != null">
+				#{docName, jdbcType=VARCHAR},
+			</if>
+			<if test="docArea != null">
+				#{docArea, jdbcType=VARCHAR},
+			</if>
+			<if test="docTime != null">
+				#{docTime, jdbcType=VARCHAR},
+			</if>
+			<if test="docOprman != null">
+				#{docOprman, jdbcType=VARCHAR},
+			</if>
+			<if test="isdel != null">
+				#{isdel, jdbcType=VARCHAR},
+			</if>
+			<if test="docAttr != null">
+				#{docAttr, jdbcType=VARCHAR},
+			</if>
+			<if test="typeNum != null">
+				#{typeNum, jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+</mapper>

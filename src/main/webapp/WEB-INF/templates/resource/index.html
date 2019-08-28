@@ -1,0 +1,125 @@
+<html lang="zh-cmn-Hans"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: common_head(title)">
+    <meta charset="UTF-8">
+    <title>教学资源</title>
+</head>
+<body>
+<div th:replace="fragments/header :: common_body(title)"></div>
+<div class="easyui-layout" id="menu">
+    <div region="west" split="true" title="课程" style="width:285px;">
+        <div class="easyui-accordion" style="width:280px;">
+            <div title="课程列表">
+                <ul id="tree" class="easyui-tree">
+                    <li th:each="obj,iterStat:${majors}">
+                        <span th:text="${obj.cnname}">${obj.cnname}</span>
+                        <ul>
+                            <li type="button" th:each="obj1,iterStat1:${obj.courses}"  >
+                                <span th:text="${obj1.cnname}" th:checkState="${obj1.id}"></span>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="content" region="center" title="资源列表" style="padding:5px;">
+        <div style="float: right">
+            <input class="easyui-searchbox" id="sear">
+            </input>
+            <button class="easyui-linkbutton" plain="true"  onclick="SqlTest()">查询</button>
+        </div></br>
+        <table class="easyui-datagrid" title="最新资讯" rownumbers="true" style="width:99%;height:96%" pagination="true"
+               data-options="singleSelect:true,method:'get'" id="tab">
+            <thead>
+            <tr>
+                <th data-options="field:'rname',width:400">名称</th>
+                <th data-options="field:'roprtime',align:'center',width:350">上架时间</th>
+                <th data-options="field:'sourceType',align:'center',width:200">类别</th>
+                <th data-options="field:'rattr',width:250,align:'center',width:400">描述</th>
+                <th data-options="field:'rid',width:200,align:'center',formatter:formatOper">操作</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div th:replace="fragments/footer :: js">
+</div>
+<script type="text/javascript">
+    //初始化
+    $("#menu").css({"width": window.innerWidth * 0.99, "height": window.innerHeight * 0.98});
+    $("#tab").attr("data-options","singleSelect:true,url:'"+webUrl+"/resource/getResource',method:'get'");
+    //点击树
+    $("#menu ul").tree({
+        onClick:function(node){
+            var cname = node["text"].replace(/\+/g,"%2B");
+            $('#tab').datagrid({
+                url:webUrl+"/resource/getResource?cname="+cname,
+                method:'get',
+                /*queryParams:{
+                    id:'001',
+                    state:'ok'
+                }*/
+            });
+        }
+    });
+    function formatOper(val,row,index){
+        // console.log(row);
+        var rarea = row["rarea"];
+        var rname = row["rname"];
+        return '<a href="#" onclick="upload(\''+rarea+'\',\''+rname+'\')">下载</a>|<a href="#" onclick="collect('+val+')">收藏</a>';
+    }
+    function upload(rarea,rname) {
+        var aLink = document.createElement('a');
+        aLink.href = webUrl+rarea;
+        aLink.download = rname;
+        aLink.click();
+    }
+    function collect(val) {
+
+    }
+    //sql注入测试
+    function SqlTest() {
+
+
+        var val = $("#sear").val();
+        $.ajax({
+            type:'post',
+            url:webUrl+'/resource/idTest',
+            //headers:{"Content-Type": "application/json; charset=utf-8"},
+            data:{"cid":val},
+            success:function(result){
+                console.log(JSON.stringify(result))
+
+            }
+        });
+    }
+
+    //ajax传对象
+    function BeanTest() {
+        var bean = {
+            "name":"yuc",
+            "age":"18",
+            "attr":{
+                ip:"11",
+                area:"南京"
+            }
+
+        };
+        $.ajax({
+            type:'post',
+            url:webUrl+'/resource/beanTest',
+            //headers:{"Content-Type": "application/json; charset=utf-8"},
+            contentType:"application/json;charset=utf-8",
+            dataType:'json',
+            data:JSON.stringify(bean),
+            success:function(result){
+                console.log(JSON.stringify(result))
+            }
+        });
+    }
+
+</script>
+</body>
+</html>
